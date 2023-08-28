@@ -14,12 +14,22 @@ class sceneView : public QGraphicsView
 {
     Q_OBJECT
 public:
-    sceneView(QGraphicsScene *scene, QWidget *parent = nullptr);
+    sceneView(QWidget *parent = nullptr);
     ~sceneView();
 
+/*private slots:
+    void settingsToMenu();
+    void switchToScene2();
+*/
+public slots:
+    void toMenu();
+    void toSettings();
+signals:
+    void toMenuReq();
+    void toSettingsReq();
 private:
-    //menuScene *menu;
-    //settingsScene *settings;
+    menuScene *menu;
+    settingsScene *settings;
     //gameScene *game;
 
 
