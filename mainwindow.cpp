@@ -1,8 +1,7 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "sceneView.h"
-#include <QVBoxLayout>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -10,9 +9,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    menuScene *menu = new menuScene();
+    //menuScene *menu = new menuScene();
     //settingsScene *settings= new settingsScene();
-    sceneView *widok = new sceneView(this);
+    widok = new sceneView(this);
+
 
     //widok->setScene(menu);
     //widok->show();
@@ -28,11 +28,18 @@ MainWindow::MainWindow(QWidget *parent)
     // Ustawianie centralWidget w głównym oknie
     setCentralWidget(centralWidget);
 
+    connect(widok, &sceneView::exitReq, this, &MainWindow::close);
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::onExitReq()
+{
+    //this->widok->menu->label->setText("z main");
 }
 
 

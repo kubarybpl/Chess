@@ -6,7 +6,7 @@
 #include <QLabel>
 #include <QGraphicsRectItem>
 #include "button.h"
-#include "button.h"
+#include <QGraphicsTextItem>
 
 class menuScene : public QGraphicsScene
 {
@@ -14,18 +14,19 @@ class menuScene : public QGraphicsScene
 public:
     menuScene();
     ~menuScene();
-
-    QLabel *label;
-
 public slots:
     void settingsButtonClicked();
     void gameButtonClicked();
+    void exitButtonClicked();
 signals:
-    void toMenuReq();
-    void toSettingsReq();
+    void settingsReq();
+    void exitReq();
+    void gameReq();
 private:
     button *gameButton;
     button *settingsButton;
+    button *exitButton;
+    QGraphicsTextItem *textItem;
 };
 
 #endif // MENUSCENE_H

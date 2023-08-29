@@ -7,6 +7,7 @@ sceneView::sceneView(QWidget *parent) : QGraphicsView(parent)
     //settingsScene *settings= new settingsScene();
     settings = new settingsScene();
     menu = new menuScene();
+    game = new gameScene();
 
 
 
@@ -21,11 +22,12 @@ sceneView::sceneView(QWidget *parent) : QGraphicsView(parent)
     this->setScene(menu);
     this->show();
 
-    //connect(buttonScene1, &QPushButton::clicked, this, &CustomGraphicsView::switchToScene1);
-    //(buttonScene2, &QPushButton::clicked, this, &CustomGraphicsView::switchToScene2);
 
-    connect(menu, &menuScene::toSettingsReq, this, &sceneView::toSettings);
-    connect(settings, &settingsScene::toMenuReq, this, &sceneView::toMenu);
+    connect(menu, &menuScene::settingsReq, this, &sceneView::toSettings);
+    connect(menu, &menuScene::exitReq, this, &sceneView::exitRequest);
+    connect(menu, &menuScene::gameReq, this, &sceneView::toGame);
+    connect(game, &gameScene::menuReq, this, &sceneView::toMenu);
+    connect(settings, &settingsScene::menuReq, this, &sceneView::toMenu);
 
 
 }
@@ -40,9 +42,21 @@ void sceneView::toSettings()
     this->show();
 }
 
+void sceneView::toGame()
+{
+    this->setScene(game);
+    this->show();
+}
+
 void sceneView::toMenu()
 {
     //menu = new menuScene();
     this->setScene(menu);
     this->show();
+}
+
+void sceneView::exitRequest()
+{
+    emit exitReq();
+
 }

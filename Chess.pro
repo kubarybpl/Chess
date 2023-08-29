@@ -11,6 +11,8 @@ CONFIG += c++17
 
 SOURCES += \
     button.cpp \
+    chessboard.cpp \
+    chessbox.cpp \
     gamescene.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -20,6 +22,8 @@ SOURCES += \
 
 HEADERS += \
     button.h \
+    chessboard.h \
+    chessbox.h \
     gamescene.h \
     mainwindow.h \
     menuScene.h \

@@ -16,21 +16,17 @@ class sceneView : public QGraphicsView
 public:
     sceneView(QWidget *parent = nullptr);
     ~sceneView();
-
-/*private slots:
-    void settingsToMenu();
-    void switchToScene2();
-*/
 public slots:
     void toMenu();
     void toSettings();
+    void toGame();
+    void exitRequest();
 signals:
-    void toMenuReq();
-    void toSettingsReq();
+    void exitReq();
 private:
     menuScene *menu;
     settingsScene *settings;
-    //gameScene *game;
+    gameScene *game;
 
 
 };

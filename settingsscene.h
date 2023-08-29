@@ -4,6 +4,7 @@
 
 #include <QGraphicsScene>
 #include <QLabel>
+#include <QGraphicsTextItem>
 #include "button.h"
 
 class settingsScene : public QGraphicsScene
@@ -15,12 +16,12 @@ public:
 private:
     button *menuButton;
     button *costamButton;
-    QLabel *label;
+    QGraphicsTextItem *textItem;
 public slots:
     void menuButtonClicked();
     void costamButtonClicked();
 signals:
-    void toMenuReq();
+    void menuReq();
 };
 
 #endif // SETTINGSSCENE_H
