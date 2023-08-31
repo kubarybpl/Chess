@@ -3,16 +3,18 @@
 #define MENUSCENE_H
 
 #include <QGraphicsScene>
-#include <QLabel>
-#include <QGraphicsRectItem>
-#include "button.h"
 #include <QGraphicsTextItem>
-
+#include <QDialogButtonBox>
+#include <QVBoxLayout>
+#include <QDialog>
+#include <QLabel>
+#include "button.h"
+#include "gamescene.h"
 class menuScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    menuScene();
+    menuScene(QObject *parent = nullptr);
     ~menuScene();
 public slots:
     void settingsButtonClicked();
@@ -26,7 +28,9 @@ private:
     button *gameButton;
     button *settingsButton;
     button *exitButton;
-    QGraphicsTextItem *textItem;
+    QLabel *labelMenu;
+    gameScene *game;
+
 };
 
 #endif // MENUSCENE_H

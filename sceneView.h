@@ -17,16 +17,16 @@ public:
     sceneView(QWidget *parent = nullptr);
     ~sceneView();
 public slots:
-    void toMenu();
+    //void toMenu();
     void toSettings();
-    void toGame();
+    //void toGame();
     void exitRequest();
 signals:
     void exitReq();
 private:
     menuScene *menu;
     settingsScene *settings;
-    gameScene *game;
+    //gameScene *game;
 
 
 };

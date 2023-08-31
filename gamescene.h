@@ -4,20 +4,32 @@
 
 #include <QGraphicsScene>
 #include <QLabel>
-#include <QGraphicsTextItem>
+#include <QDialogButtonBox>
+#include "QDialog"
+#include <QVBoxLayout>
+#include <QTimer>
 #include "button.h"
 #include "chessboard.h"
-
 class gameScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    gameScene();
+    gameScene(QObject *parent = nullptr);
     ~gameScene();
+    QDialog *dialog;
 private:
     button *menuButton;
-    QGraphicsTextItem *textItem;
+    button *dialEndButton;
+    button *dialCancelButton;
+    QLabel *gameLabel;
+    QLabel *dialLabel;
     chessBoard *board;
+    qreal sizeBox;
+    QDialogButtonBox *dialBox;
+
+    QTimer *timerWhite;
+    QTimer *timerBlack;
+
 public slots:
     void menuButtonClicked();
 signals:

@@ -12,7 +12,6 @@ namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
-
 {
     Q_OBJECT
 public:
@@ -21,8 +20,6 @@ public:
 private:
     Ui::MainWindow *ui;
     sceneView *widok;
-public slots:
-    void onExitReq();
 };
 
 #endif // MAINWINDOW_H

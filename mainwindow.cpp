@@ -36,10 +36,3 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-void MainWindow::onExitReq()
-{
-    //this->widok->menu->label->setText("z main");
-}
-
-
