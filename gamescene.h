@@ -32,8 +32,11 @@ private:
 
 public slots:
     void menuButtonClicked();
+    void closeDialog();
+
 signals:
     void menuReq();
+    void closeDial();
 };
 
 #endif // GAMESCENE_H

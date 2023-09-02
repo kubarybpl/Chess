@@ -10,6 +10,11 @@
 #include <QLabel>
 #include "button.h"
 #include "gamescene.h"
+#include "settingsscene.h"
+
+#include <QGraphicsView>
+
+
 class menuScene : public QGraphicsScene
 {
     Q_OBJECT
@@ -18,19 +23,22 @@ public:
     ~menuScene();
 public slots:
     void settingsButtonClicked();
-    void gameButtonClicked();
     void exitButtonClicked();
+    void toGame();
+    void gameToMenu();
+    void settingsToMenu();
 signals:
     void settingsReq();
     void exitReq();
-    void gameReq();
 private:
     button *gameButton;
     button *settingsButton;
     button *exitButton;
     QLabel *labelMenu;
     gameScene *game;
+    settingsScene *settings;
 
+    QGraphicsView *parentPtr;
 };
 
 #endif // MENUSCENE_H

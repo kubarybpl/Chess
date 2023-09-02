@@ -1,12 +1,13 @@
 
 #include "menuScene.h"
-
 menuScene::menuScene(QObject *parent) : QGraphicsScene(parent)
 {
+    parentPtr = dynamic_cast<QGraphicsView*>(parent);
     this->setSceneRect(0, 0, 800, 600);
     this->addRect(100, 100, 200, 200, QPen(), QBrush(Qt::blue));
 
-    game = new gameScene();
+    game = new gameScene(parentPtr);
+    settings = new settingsScene();
 
     gameButton = new button("Rozpocznij gre");
     gameButton->move(400,300);
@@ -26,7 +27,10 @@ menuScene::menuScene(QObject *parent) : QGraphicsScene(parent)
 
     connect(settingsButton, &QPushButton::clicked, this, &menuScene::settingsButtonClicked);
     connect(exitButton, &QPushButton::clicked, this, &menuScene::exitButtonClicked);
-    connect(gameButton, &QPushButton::clicked, this, &menuScene::gameButtonClicked);
+    connect(gameButton, &QPushButton::clicked, this, &menuScene::toGame);
+
+    connect(settings, &settingsScene::menuReq, this, &menuScene::settingsToMenu);
+    connect(game, &gameScene::menuReq, this, &menuScene::gameToMenu);
 }
 
 menuScene::~menuScene()
@@ -36,16 +40,40 @@ menuScene::~menuScene()
 
 void menuScene::settingsButtonClicked()
 {
-    emit settingsReq();
+    parentPtr->setScene(settings);
+    parentPtr->show();
+    //emit settingsReq();
 }
 
-void menuScene::gameButtonClicked()
-{
-    emit gameReq();
-}
 
 void menuScene::exitButtonClicked()
 {
     emit exitReq();
 }
 
+void menuScene::toGame()
+{
+    if(game == nullptr) game = new gameScene(parentPtr);
+    connect(game, &gameScene::menuReq, this, &menuScene::gameToMenu);
+    parentPtr->setScene(game);
+    parentPtr->show();
+
+}
+
+void menuScene::gameToMenu()
+{
+    game->closeDialog();
+    //delete game->dialog;
+    //game->dialog = nullptr;
+    parentPtr->setScene(this);
+    parentPtr->show();
+    delete game;
+    //game->deleteLater();
+    game = nullptr;
+}
+
+void menuScene::settingsToMenu()
+{
+    parentPtr->setScene(this);
+    parentPtr->show();
+}

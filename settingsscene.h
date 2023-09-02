@@ -11,7 +11,7 @@ class settingsScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    settingsScene();
+    settingsScene(QObject *parent = nullptr);
     ~settingsScene();
 private:
     button *menuButton;

@@ -23,8 +23,7 @@ sceneView::sceneView(QWidget *parent) : QGraphicsView(parent)
 
     connect(menu, &menuScene::settingsReq, this, &sceneView::toSettings);
     connect(menu, &menuScene::exitReq, this, &sceneView::exitRequest);
-    //connect(menu, &menuScene::gameReq, this, &sceneView::toGame);
-    //connect(game, &gameScene::menuReq, this, &sceneView::toMenu);
+
     //connect(settings, &settingsScene::menuReq, this, &sceneView::toMenu);
 }
 
@@ -38,21 +37,7 @@ void sceneView::toSettings()
     this->show();
 }
 /*
-void sceneView::toGame()
-{
 
-    this->setScene(game);
-    this->show();
-
-}
-
-void sceneView::toMenu()
-{
-    this->setScene(menu);
-    this->show();
-    game->dialog->close();
-    //delete game;
-}
 */
 void sceneView::exitRequest()
 {

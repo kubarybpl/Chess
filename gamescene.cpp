@@ -1,6 +1,7 @@
 
 #include "gamescene.h"
 #include <QDebug>
+
 gameScene::gameScene(QObject *parent) : QGraphicsScene(parent)
 {
     this->setSceneRect(0, 0, 800, 600);
@@ -20,33 +21,64 @@ gameScene::gameScene(QObject *parent) : QGraphicsScene(parent)
     sizeBox = 60;
     board = new chessBoard((this->width() - 8*sizeBox)/2,(this->height() - 8*sizeBox)/2,sizeBox,this);
 
+    dialog = nullptr;
     connect(menuButton, &QPushButton::clicked, this, &gameScene::menuButtonClicked);
-
-}
-
-gameScene::~gameScene()
-{
 
 }
 
 void gameScene::menuButtonClicked()
 {
+    if(dialog == nullptr){
     dialEndButton = new button("Zakończ grę");
     dialCancelButton = new button("Anuluj");
+
+
+
     dialBox = new QDialogButtonBox(Qt::Horizontal);
-    dialBox->addButton(dialEndButton, QDialogButtonBox::AcceptRole);
+    dialBox->addButton(dialEndButton, QDialogButtonBox::ActionRole);
     dialBox->addButton(dialCancelButton, QDialogButtonBox::RejectRole);
-    QLabel *info = new QLabel("Czy na pewno chcesz opuścić grę?\nPostępy zostaną utracone");
+    dialLabel= new QLabel("Czy na pewno chcesz opuścić grę?\nPostępy zostaną utracone");
     QVBoxLayout *layout= new QVBoxLayout();
+    layout->addWidget(dialLabel);
     layout->addWidget(dialBox);
-    layout->addWidget(info);
+
     dialog = new QDialog();
     dialog->setLayout(layout);
-    dialog->setAttribute(Qt::WA_DeleteOnClose);
+
+    //dialog->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(dialEndButton, &QPushButton::clicked, this, &gameScene::menuReq);
-    connect(dialCancelButton, &QPushButton::clicked, dialog, &QDialog::close);
-    dialog->exec();
+    connect(dialCancelButton, &QPushButton::clicked, this, &gameScene::closeDialog);
 
-    //emit menuReq();
+    dialog->show();
+    }
+
+}
+
+void gameScene::closeDialog()
+{
+    dialog->close();
+    delete dialog;
+    //dialog->deleteLater();
+    dialog = nullptr;
+
+    //dialBox->deleteLater();
+    //delete dialBox;
+    //delete dialLabel;
+    //dialLabel = nullptr;
+    //dialBox = nullptr;
+
+    dialCancelButton = nullptr;
+    dialEndButton = nullptr;
+
+    disconnect(dialEndButton, &QPushButton::clicked, this, &gameScene::menuReq);
+    disconnect(dialCancelButton, &QPushButton::clicked, this, &gameScene::closeDialog);
+    qDebug() << 1;
+
+}
+
+
+gameScene::~gameScene()
+{
+    //delete dialog;
 }

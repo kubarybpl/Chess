@@ -2,12 +2,15 @@
 #include "chessboard.h"
 
 
-chessBoard::chessBoard(qreal x, qreal y, qreal s, QGraphicsScene *parent) : QObject()
+chessBoard::chessBoard(qreal x, qreal y, qreal s, QGraphicsScene *parent) : QObject(parent)
 {
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++) {
             board[i][j] = new chessBox(x + i*s, y + j*s, s);
-            if(!((i+j)%2)) board[i][j]->setBrush(Qt::white);
+            if(!((i+j)%2)) {
+                board[i][j]->setBrush(Qt::white);
+                board[i][j]->setZValue(i*j);
+            }
             parent->addItem(board[i][j]);
         }
     }
