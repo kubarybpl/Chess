@@ -32,8 +32,6 @@ void gameScene::menuButtonClicked()
     dialEndButton = new button("Zakończ grę");
     dialCancelButton = new button("Anuluj");
 
-
-
     dialBox = new QDialogButtonBox(Qt::Horizontal);
     dialBox->addButton(dialEndButton, QDialogButtonBox::ActionRole);
     dialBox->addButton(dialCancelButton, QDialogButtonBox::RejectRole);
@@ -45,14 +43,11 @@ void gameScene::menuButtonClicked()
     dialog = new QDialog();
     dialog->setLayout(layout);
 
-    //dialog->setAttribute(Qt::WA_DeleteOnClose);
-
     connect(dialEndButton, &QPushButton::clicked, this, &gameScene::menuReq);
     connect(dialCancelButton, &QPushButton::clicked, this, &gameScene::closeDialog);
 
     dialog->show();
     }
-
 }
 
 void gameScene::closeDialog()
@@ -73,12 +68,9 @@ void gameScene::closeDialog()
 
     disconnect(dialEndButton, &QPushButton::clicked, this, &gameScene::menuReq);
     disconnect(dialCancelButton, &QPushButton::clicked, this, &gameScene::closeDialog);
-    qDebug() << 1;
-
 }
 
 
 gameScene::~gameScene()
 {
-    //delete dialog;
 }

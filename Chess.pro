@@ -17,6 +17,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     menuScene.cpp \
+    pawn.cpp \
+    piece.cpp \
     sceneView.cpp \
     settingsscene.cpp
 
@@ -27,6 +29,8 @@ HEADERS += \
     gamescene.h \
     mainwindow.h \
     menuScene.h \
+    pawn.h \
+    piece.h \
     sceneView.h \
     settingsscene.h
 
@@ -37,3 +41,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    pieces.qrc

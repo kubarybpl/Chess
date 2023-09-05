@@ -70,6 +70,8 @@ void menuScene::gameToMenu()
     delete game;
     //game->deleteLater();
     game = nullptr;
+    disconnect(game, &gameScene::menuReq, this, &menuScene::gameToMenu);
+
 }
 
 void menuScene::settingsToMenu()

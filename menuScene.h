@@ -14,6 +14,7 @@
 
 #include <QGraphicsView>
 
+#include <pawn.h>
 
 class menuScene : public QGraphicsScene
 {
@@ -31,6 +32,8 @@ signals:
     void settingsReq();
     void exitReq();
 private:
+    pawn *pionek;
+
     button *gameButton;
     button *settingsButton;
     button *exitButton;
