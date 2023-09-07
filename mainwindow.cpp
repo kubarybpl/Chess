@@ -9,14 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    //menuScene *menu = new menuScene();
-    //settingsScene *settings= new settingsScene();
     widok = new sceneView(this);
-
-
-    //widok->setScene(menu);
-    //widok->show();
-    //widok->fitInView(menu->sceneRect(), Qt::KeepAspectRatio);
 
     QWidget *centralWidget = new QWidget(this);
     QVBoxLayout *centralLayout = new QVBoxLayout;

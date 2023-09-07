@@ -26,6 +26,7 @@ HEADERS += \
     button.h \
     chessboard.h \
     chessbox.h \
+    chessenum.h \
     gamescene.h \
     mainwindow.h \
     menuScene.h \

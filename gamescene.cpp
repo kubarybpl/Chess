@@ -54,14 +54,8 @@ void gameScene::closeDialog()
 {
     dialog->close();
     delete dialog;
-    //dialog->deleteLater();
-    dialog = nullptr;
 
-    //dialBox->deleteLater();
-    //delete dialBox;
-    //delete dialLabel;
-    //dialLabel = nullptr;
-    //dialBox = nullptr;
+    dialog = nullptr;
 
     dialCancelButton = nullptr;
     dialEndButton = nullptr;

@@ -4,14 +4,15 @@
 
 #include <piece.h>
 
-
 class pawn : public piece
 {
 public:
-    pawn(team color = team::white);
-    void setImage() override;
+    pawn(chessEnum color = chessEnum::white, chessBoard *board = nullptr);
+    virtual void setImage();
+    virtual std::vector<std::vector<int>> getMoves();
+
 private:
-    team player;
+
 };
 
 #endif // PAWN_H

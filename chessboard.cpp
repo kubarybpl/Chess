@@ -1,16 +1,13 @@
 
 #include "chessboard.h"
-
+#include <QDebug>
 
 chessBoard::chessBoard(qreal x, qreal y, qreal s, QGraphicsScene *parent) : QObject(parent),
-    parentPtr(parent), state(action::select)
+    parentPtr(parent), state(chessEnum::select), turn(chessEnum::white)
 {
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++) {
-            board[i][j] = new chessBox(x + i*s, y + j*s, s, this);
-            if(!((i+j)%2)) {
-                board[i][j]->setBrush(Qt::white);
-            }
+            board[i][j] = new chessBox(x + i*s, y + j*s, s,i , j,  this);
             parentPtr->addItem(board[i][j]);
         }
     }
@@ -33,20 +30,63 @@ chessBoard::chessBoard(qreal x, qreal y, qreal s, QGraphicsScene *parent) : QObj
 
 void chessBoard::drawPieces(piece *pionek)
 {
-    pionek = new pawn(team::white);
+    pionek = new pawn(chessEnum::white,this);
     pionek->setImage();
-    board[0][1]->drawPiece(pionek);
-    parentPtr->addItem(pionek);
+    board[1][6]->drawPiece(pionek);
+
+    pawn *pionek1 = new pawn(chessEnum::black);
+    pionek1->setImage();
+    board[2][4]->drawPiece(pionek1);
 
 
 }
 
-action chessBoard::getState()
+chessEnum chessBoard::getState()
 {
     return state;
 }
 
-void chessBoard::setState(action newState)
+chessEnum chessBoard::getBoxState(int x, int y)
+{
+    return board[x][y]->getBoxState();
+}
+
+void chessBoard::resetColors()
+{
+    for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++) {
+            if(!((i+j)%2)) board[i][j]->setColor(Qt::white);
+            else board[i][j]->setColor(Qt::gray);
+        }
+    }
+}
+
+void chessBoard::addPiece(piece *element)
+{
+    if(element->scene() == nullptr) parentPtr->addItem(element);
+}
+
+void chessBoard::removePiece(piece *element)
+{
+    parentPtr->removeItem(element);
+}
+
+void chessBoard::setState(chessEnum newState)
 {
     state = newState;
+}
+
+chessEnum chessBoard::getTurn()
+{
+    return turn;
+}
+
+void chessBoard::showMoves(std::vector<std::vector<int> > moves)
+{
+    for(auto m : moves)
+    {
+        qDebug() << m[0];
+        qDebug() << m[1];
+        board[m[0]][m[1]]->setColor(Qt::yellow);
+    }
 }

@@ -6,27 +6,35 @@
 #include <QBrush>
 #include <QPen>
 #include <pawn.h>
-#include <chessboard.h>
-
-enum class state {occupied, free};
+#include "chessboard.h"
+#include <chessenum.h>
 
 class chessBoard;
 class chessBox : public QGraphicsRectItem
 {
     //Q_OBJECT
 public:
-    chessBox(qreal x = 0, qreal y = 0, qreal s = 50, chessBoard *object = nullptr, QGraphicsItem *parent = nullptr);
+    chessBox(qreal x = 0, qreal y = 0, qreal s = 50, int col = 0, int row = 0, chessBoard *object = nullptr, QGraphicsItem *parent = nullptr);
     void drawPiece(piece *element);
+    void movePiece();
+    chessEnum getBoxState();
+    QBrush getColor();
+    void setColor(QBrush brush);
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 private:
-    chessBoard *parentPtr;
-    qreal x;
-    qreal y;
+    chessBoard *boardPtr;
+    QBrush color;
+    int row;
+    int col;
     qreal s;
     QPen pen;
-    state boxState;
-    team side;
+    chessEnum boxState;
+    piece *currentPiece;
+    static piece *killerPiece;
+    static chessBox *previousBox;
+
+
 
 };
 

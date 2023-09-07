@@ -6,7 +6,7 @@ menuScene::menuScene(QObject *parent) : QGraphicsScene(parent)
     this->setSceneRect(0, 0, 800, 600);
     this->addRect(100, 100, 200, 200, QPen(), QBrush(Qt::blue));
 
-    game = new gameScene(parentPtr);
+    game = new gameScene();
     settings = new settingsScene();
 
     gameButton = new button("Rozpocznij gre");
@@ -42,7 +42,6 @@ void menuScene::settingsButtonClicked()
 {
     parentPtr->setScene(settings);
     parentPtr->show();
-    //emit settingsReq();
 }
 
 
@@ -63,15 +62,11 @@ void menuScene::toGame()
 void menuScene::gameToMenu()
 {
     game->closeDialog();
-    //delete game->dialog;
-    //game->dialog = nullptr;
     parentPtr->setScene(this);
     parentPtr->show();
     delete game;
-    //game->deleteLater();
     game = nullptr;
     disconnect(game, &gameScene::menuReq, this, &menuScene::gameToMenu);
-
 }
 
 void menuScene::settingsToMenu()

@@ -30,8 +30,6 @@ private:
     QTimer *timerWhite;
     QTimer *timerBlack;
 
-    int turn;
-
 public slots:
     void menuButtonClicked();
     void closeDialog();
