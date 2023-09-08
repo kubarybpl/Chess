@@ -43,6 +43,7 @@ void chessBox::movePiece()
     killerPiece = nullptr;
     boardPtr->setState(chessEnum::select);
     boardPtr->resetColors();
+    boardPtr->changeTurn();
 }
 
 
@@ -65,8 +66,16 @@ void chessBox::setColor(QBrush brush)
 
 void chessBox::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    // If chosen piece, but resigning from move
+    if(boardPtr->getState() == chessEnum::move && color != Qt::yellow && (boxState == chessEnum::none || boxState == killerPiece->getTeam()))
+    {
+        boardPtr->resetColors();
+        boardPtr->setState(chessEnum::select);
+        killerPiece->clearMoves();
+        killerPiece = nullptr;
+    }
     // Chosing piece to move
-    if(boardPtr->getState() == chessEnum::select && boxState != chessEnum::none)
+    else if(boardPtr->getState() == chessEnum::select && boxState != chessEnum::none)
     {
         if(boxState == boardPtr->getTurn())
         {
@@ -78,25 +87,16 @@ void chessBox::mousePressEvent(QGraphicsSceneMouseEvent *event)
             previousBox = this;
         }
     }
-    // If chosen piece, but resigning from move
-    if(boardPtr->getState() == chessEnum::move && boxState == chessEnum::none && color != Qt::yellow )
-    {
-        boardPtr->resetColors();
-        boardPtr->setState(chessEnum::select);
-        killerPiece->clearMoves();
-        killerPiece = nullptr;
-    }
     // Kill me
-    if(boardPtr->getState() == chessEnum::move && boxState != chessEnum::none && color == Qt::yellow )
+    else if(boardPtr->getState() == chessEnum::move && boxState != chessEnum::none && color == Qt::yellow )
     {
         boardPtr->removePiece(currentPiece);
         movePiece();
     }
     // Move
-    if(boardPtr->getState() == chessEnum::move && boxState == chessEnum::none && color == Qt::yellow )
+    else if(boardPtr->getState() == chessEnum::move && boxState == chessEnum::none && color == Qt::yellow )
     {
         movePiece();
     }
-
 }
 

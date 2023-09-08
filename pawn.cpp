@@ -15,34 +15,99 @@ void pawn::setImage()
 
 std::vector<std::vector<int>> pawn::getMoves()
 {
+    /*
     if(player == chessEnum::white)
     {
         if(row - 1 >= 0 && boardPtr->getBoxState(col,row - 1) == chessEnum::none)
         {
             avaliableMoves.push_back(std::vector<int>{col,row-1});
 
+            if(boardPtr->getBoxState(col+1,row - 1) == chessEnum::black && col + 1 <= 7 )
+                avaliableMoves.push_back(std::vector<int>{col+1,row-1});
+
+            if(boardPtr->getBoxState(col-1,row - 1) == chessEnum::black && col - 1 <= 0)
+                avaliableMoves.push_back(std::vector<int>{col-1,row-1});
+
+
+            if(moved == chessEnum::notMoved && row - 2 >= 0)
+            {
+                if(boardPtr->getBoxState(col,row - 2) == chessEnum::none)
+                    avaliableMoves.push_back(std::vector<int>{col,row-2});
+
+                if(boardPtr->getBoxState(col+1,row - 2) == chessEnum::black && col + 1 <= 7 )
+                    avaliableMoves.push_back(std::vector<int>{col+1,row-2});
+
+                if(boardPtr->getBoxState(col-1,row - 2) == chessEnum::black && col - 1 <= 0)
+                    avaliableMoves.push_back(std::vector<int>{col-1,row-2});
+
+            }
+        }
+        if(row - 1 >= 0 && boardPtr->getBoxState(col,row - 1) != chessEnum::none)
+        {
             if(boardPtr->getBoxState(col+1,row - 1) == chessEnum::black && col + 1 <= 7 ){
                 avaliableMoves.push_back(std::vector<int>{col+1,row-1});
             }
             if(boardPtr->getBoxState(col-1,row - 1) == chessEnum::black && col - 1 <= 0){
                 avaliableMoves.push_back(std::vector<int>{col-1,row-1});
             }
-
-            if(moved == chessEnum::notMoved && row - 2 >= 0)
-            {
-                if(boardPtr->getBoxState(col,row - 2) == chessEnum::none){
-                    avaliableMoves.push_back(std::vector<int>{col,row-2});
-                }
-                if(boardPtr->getBoxState(col+1,row - 2) == chessEnum::black && col + 1 <= 7 ){
-                    avaliableMoves.push_back(std::vector<int>{col+1,row-2});
-                }
-                if(boardPtr->getBoxState(col-1,row - 2) == chessEnum::black && col - 1 <= 0){
-                    avaliableMoves.push_back(std::vector<int>{col-1,row-2});
-                }
-            }
-
         }
     }
+    */
+    ///////
+    if(player == chessEnum::white)
+    {
+        if(row - 1 >= 0)
+        {
+            if(boardPtr->getBoxState(col,row - 1) == chessEnum::none)
+            {
+                avaliableMoves.push_back(std::vector<int>{col,row - 1});
+                if(moved == chessEnum::notMoved && row - 2 >= 0)
+                {
+                    if(boardPtr->getBoxState(col,row - 2) == chessEnum::none)
+                        avaliableMoves.push_back(std::vector<int>{col,row - 2});
+
+                    if(boardPtr->getBoxState(col+1,row - 2) == chessEnum::black && col + 1 <= 7 )
+                        avaliableMoves.push_back(std::vector<int>{col + 1,row - 2});
+
+                    if(boardPtr->getBoxState(col-1,row - 2) == chessEnum::black && col - 1 <= 0)
+                        avaliableMoves.push_back(std::vector<int>{col - 1,row - 2});
+                }
+            }
+            if(boardPtr->getBoxState(col+1,row - 1) == chessEnum::black && col + 1 <= 7 )
+                avaliableMoves.push_back(std::vector<int>{col + 1,row - 1});
+
+            if(boardPtr->getBoxState(col-1,row - 1) == chessEnum::black && col - 1 <= 0)
+                avaliableMoves.push_back(std::vector<int>{col - 1,row - 1});
+        }
+    }
+    if(player == chessEnum::black)
+    {
+        if(row + 1 <= 7)
+        {
+            if(boardPtr->getBoxState(col,row + 1) == chessEnum::none)
+            {
+                avaliableMoves.push_back(std::vector<int>{col,row + 1});
+                if(moved == chessEnum::notMoved && row + 2 >= 0)
+                {
+                    if(boardPtr->getBoxState(col,row + 2) == chessEnum::none)
+                        avaliableMoves.push_back(std::vector<int>{col,row + 2});
+
+                    if(boardPtr->getBoxState(col + 1,row + 2) == chessEnum::white && col + 1 <= 7 )
+                        avaliableMoves.push_back(std::vector<int>{col + 1,row + 2});
+
+                    if(boardPtr->getBoxState(col - 1,row + 2) == chessEnum::white && col - 1 >= 0)
+                        avaliableMoves.push_back(std::vector<int>{col - 1,row + 2});
+
+                }
+            }
+            if(boardPtr->getBoxState(col + 1,row + 1) == chessEnum::white && col + 1 <= 7 )
+                avaliableMoves.push_back(std::vector<int>{col + 1,row + 1});
+
+            if(boardPtr->getBoxState(col - 1,row + 1) == chessEnum::white && col - 1 <= 0)
+                avaliableMoves.push_back(std::vector<int>{col - 1,row + 1});
+        }
+    }
+
     return avaliableMoves;
 }
 

@@ -6,15 +6,17 @@
 #include <QGraphicsTextItem>
 #include <vector>
 #include "chessbox.h"
+#include "piece.h"
+#include "bishop.h"
 #include "pawn.h"
-
+#include "knight.h"
+class gameScene;
 class chessBox;
-class pawn;
 class chessBoard : public QObject
 {
     Q_OBJECT
 public:
-    chessBoard(qreal x = 0, qreal y = 0, qreal s = 50, QGraphicsScene *parent = nullptr);
+    chessBoard(qreal x = 0, qreal y = 0, qreal s = 50, gameScene *parent = nullptr);
     void drawPieces(piece *element);
     void setState(chessEnum newState);
     void showMoves(std::vector<std::vector<int>> moves);
@@ -22,17 +24,18 @@ public:
     void addPiece(piece* element);
     void removePiece(piece* element);
     chessEnum getTurn();
+    void changeTurn();
     chessEnum getState();
     chessEnum getBoxState(int x, int y);
 private:
     chessBox *board[8][8];
-    QGraphicsScene *parentPtr;
+    gameScene *parentPtr;
     qreal x;
     qreal y;
     qreal s;
     QGraphicsRectItem *rect;
     QGraphicsTextItem *text;
-    pawn *pionek;
+    piece *pionek;
     chessEnum state;
     chessEnum turn;
 

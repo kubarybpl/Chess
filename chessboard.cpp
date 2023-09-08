@@ -1,8 +1,9 @@
 
 #include "chessboard.h"
+#include "gamescene.h"
 #include <QDebug>
 
-chessBoard::chessBoard(qreal x, qreal y, qreal s, QGraphicsScene *parent) : QObject(parent),
+chessBoard::chessBoard(qreal x, qreal y, qreal s, gameScene *parent) : QObject(parent),
     parentPtr(parent), state(chessEnum::select), turn(chessEnum::white)
 {
     for(int i = 0; i < 8; i++){
@@ -34,11 +35,21 @@ void chessBoard::drawPieces(piece *pionek)
     pionek->setImage();
     board[1][6]->drawPiece(pionek);
 
-    pawn *pionek1 = new pawn(chessEnum::black);
+    pawn *pionek1 = new pawn(chessEnum::black,this);
     pionek1->setImage();
     board[2][4]->drawPiece(pionek1);
 
+    pawn *pionek2 = new pawn(chessEnum::white,this);
+    pionek2->setImage();
+    board[2][2]->drawPiece(pionek2);
 
+    bishop *bishop1 = new bishop(chessEnum::white,this);
+    bishop1->setImage();
+    board[3][5]->drawPiece(bishop1);
+
+    knight *knight1= new knight(chessEnum::black,this);
+    knight1->setImage();
+    board[4][4]->drawPiece(knight1);
 }
 
 chessEnum chessBoard::getState()
@@ -79,6 +90,20 @@ void chessBoard::setState(chessEnum newState)
 chessEnum chessBoard::getTurn()
 {
     return turn;
+}
+
+void chessBoard::changeTurn()
+{
+    if(turn == chessEnum::white)
+    {
+        turn = chessEnum::black;
+        parentPtr->changeTurn(chessEnum::black);
+    }
+    else
+    {
+        turn = chessEnum::white;
+        parentPtr->changeTurn(chessEnum::white);
+    }
 }
 
 void chessBoard::showMoves(std::vector<std::vector<int> > moves)

@@ -17,6 +17,7 @@ public:
     gameScene(QObject *parent = nullptr);
     ~gameScene();
     QDialog *dialog;
+    void changeTurn(chessEnum color);
 private:
     button *menuButton;
     button *dialEndButton;

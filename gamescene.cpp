@@ -14,7 +14,7 @@ gameScene::gameScene(QObject *parent) : QGraphicsScene(parent)
     //timerWhite->setSingleShot(true);
     //timerWhite->
 
-    gameLabel = new QLabel("Ekran gry");
+    gameLabel = new QLabel("Runda białego");
     gameLabel->move(this->width()/2, 0);
     this->addWidget(gameLabel);
 
@@ -67,4 +67,10 @@ void gameScene::closeDialog()
 
 gameScene::~gameScene()
 {
+}
+
+void gameScene::changeTurn(chessEnum color)
+{
+    if(color == chessEnum::black) gameLabel->setText("Runda czarnego");
+    else gameLabel->setText("Runda białego");
 }

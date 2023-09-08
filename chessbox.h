@@ -5,9 +5,12 @@
 #include <QGraphicsRectItem>
 #include <QBrush>
 #include <QPen>
-#include <pawn.h>
+//#include "pawn.h"
+//#include "bishop.h"
+//#include "knight.h"
+#include "piece.h"
 #include "chessboard.h"
-#include <chessenum.h>
+#include "chessenum.h"
 
 class chessBoard;
 class chessBox : public QGraphicsRectItem
