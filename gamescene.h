@@ -16,7 +16,7 @@ class gameScene : public QGraphicsScene
 public:
     gameScene(QObject *parent = nullptr);
     ~gameScene();
-    QDialog *dialog;
+    QDialog *dialog; // do poprawki
     void changeTurn(chessEnum color);
 private:
     button *menuButton;

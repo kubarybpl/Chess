@@ -1,17 +1,17 @@
 
-#include "bishop.h"
+#include "queen.h"
 
-bishop::bishop(chessEnum color, chessBoard *board) : piece(color,board)
+queen::queen(chessEnum color, chessBoard *board) : piece(color,board)
 {
 }
 
-void bishop::setImage()
+void queen::setImage()
 {
-    if(player == chessEnum::white) setPixmap(QPixmap(":/pieces/bishop1.png"));
-    if(player == chessEnum::black) setPixmap(QPixmap(":/pieces/bishop.png"));
+    if(player == chessEnum::white) setPixmap(QPixmap(":/pieces/queen1.png"));
+    if(player == chessEnum::black) setPixmap(QPixmap(":/pieces/queen.png"));
 }
 
-std::vector<std::vector<int>> bishop::getMoves()
+std::vector<std::vector<int>> queen::getMoves()
 {
     chessEnum cSide;
     if(player == chessEnum::black)  cSide = chessEnum::white;
@@ -69,6 +69,41 @@ std::vector<std::vector<int>> bishop::getMoves()
         j--;
     }
 
+    // down
+    x = 0;
+    i = 0, j = -1;
+    while(row + j >= 0 && !x)
+    {
+        checkAndPush(i, j);
+        j--;
+    }
+
+    // up
+    x = 0;
+    i = 0, j = 1;
+    while(row + j <= 7 && !x)
+    {
+        checkAndPush(i,j);
+        j++;
+    }
+
+    // left
+    x = 0;
+    i = -1, j = 0;
+    while(col + i >= 0 && !x)
+    {
+        checkAndPush(i, j);
+        i--;
+    }
+
+    // right
+    x = 0;
+    i = 1, j = 0;
+    while(col + i <= 7 && !x)
+    {
+        checkAndPush(i,j);
+        i++;
+    }
+
     return avaliableMoves;
 }
-

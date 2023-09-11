@@ -15,12 +15,15 @@ SOURCES += \
     chessboard.cpp \
     chessbox.cpp \
     gamescene.cpp \
+    king.cpp \
     knight.cpp \
     main.cpp \
     mainwindow.cpp \
     menuScene.cpp \
     pawn.cpp \
     piece.cpp \
+    queen.cpp \
+    rook.cpp \
     sceneView.cpp \
     settingsscene.cpp
 
@@ -31,11 +34,14 @@ HEADERS += \
     chessbox.h \
     chessenum.h \
     gamescene.h \
+    king.h \
     knight.h \
     mainwindow.h \
     menuScene.h \
     pawn.h \
     piece.h \
+    queen.h \
+    rook.h \
     sceneView.h \
     settingsscene.h
 

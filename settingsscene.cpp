@@ -5,7 +5,7 @@
 settingsScene::settingsScene(QObject *parent) : QGraphicsScene(parent)
 {
     this->setSceneRect(0, 0, 800, 600);
-    this->addRect(10, 10, 200, 200, QPen(), QBrush(Qt::red)); // Przykład dodawania prostokąta
+    this->addRect(10, 10, 200, 200, QPen(), QBrush(Qt::red));
 
     textItem = new QGraphicsTextItem("Ekran ustawień");
     textItem->setPos(this->width()/2.0,0);

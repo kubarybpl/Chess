@@ -1,19 +1,9 @@
 
 #include "piece.h"
 
-piece::piece(chessEnum color,chessBoard *board, QGraphicsItem *parent) : QGraphicsPixmapItem(), player(color),row(0),col(0), boardPtr(board), moved(chessEnum::notMoved)
+piece::piece(chessEnum color,chessBoard *board, QGraphicsItem *parent) : QGraphicsPixmapItem(), player(color),
+    row(0), col(0), boardPtr(board), moved(chessEnum::notMoved), isAlive(chessEnum::alive), type(chessEnum::none)
 {
-
-}
-
-void piece::returnColor()
-{
-
-}
-
-void piece::drawPiece()
-{
-
 }
 
 chessEnum piece::getTeam()
@@ -35,4 +25,19 @@ void piece::clearMoves()
 void piece::movedPiece()
 {
     moved = chessEnum::moved;
+}
+
+void piece::killHim()
+{
+    isAlive = chessEnum::dead;
+}
+
+chessEnum piece::getType()
+{
+    return type;
+}
+
+chessEnum piece::isMoved()
+{
+    return moved;
 }

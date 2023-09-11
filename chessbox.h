@@ -5,9 +5,6 @@
 #include <QGraphicsRectItem>
 #include <QBrush>
 #include <QPen>
-//#include "pawn.h"
-//#include "bishop.h"
-//#include "knight.h"
 #include "piece.h"
 #include "chessboard.h"
 #include "chessenum.h"
@@ -19,10 +16,13 @@ class chessBox : public QGraphicsRectItem
 public:
     chessBox(qreal x = 0, qreal y = 0, qreal s = 50, int col = 0, int row = 0, chessBoard *object = nullptr, QGraphicsItem *parent = nullptr);
     void drawPiece(piece *element);
-    void movePiece();
+    void setBoxState(chessEnum state);
+    void setColor(QBrush brush);
+    void setPiece(piece *element);
+    void setFlag(chessEnum);
     chessEnum getBoxState();
     QBrush getColor();
-    void setColor(QBrush brush);
+    piece *getPiece();
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 private:
@@ -33,10 +33,12 @@ private:
     qreal s;
     QPen pen;
     chessEnum boxState;
+    chessEnum flag;
     piece *currentPiece;
+    /*
     static piece *killerPiece;
     static chessBox *previousBox;
-
+*/
 
 
 };

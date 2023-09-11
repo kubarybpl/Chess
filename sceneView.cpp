@@ -15,7 +15,6 @@ sceneView::sceneView(QWidget *parent) : QGraphicsView(parent)
     this->setScene(menu);
     this->show();
 
-
     connect(menu, &menuScene::settingsReq, this, &sceneView::toSettings);
     connect(menu, &menuScene::exitReq, this, &sceneView::exitRequest);
 }

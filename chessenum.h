@@ -10,7 +10,13 @@ enum class chessEnum
     select,
     move,
     notMoved,
-    moved
+    moved,
+    alive,
+    dead,
+    castling,
+    passan,
+    king,
+    pawn
 };
 
 #endif // CHESSENUM_H

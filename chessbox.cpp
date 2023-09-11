@@ -2,11 +2,9 @@
 #include "chessbox.h"
 #include <QDebug>
 
-piece *chessBox::killerPiece = nullptr;
-chessBox *chessBox::previousBox= nullptr;
 
 chessBox::chessBox(qreal x, qreal y, qreal s, int col, int row, chessBoard *object, QGraphicsItem *parent) : QGraphicsRectItem(x, y, s, s, parent),
-    boxState(chessEnum::none), boardPtr(object), row(row), col(col)
+    boxState(chessEnum::none), boardPtr(object), row(row), col(col), flag(chessEnum::none)
 {
     if(!((row+col)%2))  color = Qt::white;
     else color = Qt::gray;
@@ -32,21 +30,6 @@ void chessBox::drawPiece(piece *element)
 
 }
 
-void chessBox::movePiece()
-{
-    previousBox->boxState = chessEnum::none;
-    previousBox->currentPiece = nullptr;
-    previousBox = nullptr;
-    drawPiece(killerPiece);
-    killerPiece->clearMoves();
-    killerPiece->movedPiece();
-    killerPiece = nullptr;
-    boardPtr->setState(chessEnum::select);
-    boardPtr->resetColors();
-    boardPtr->changeTurn();
-}
-
-
 chessEnum chessBox::getBoxState()
 {
     return boxState;
@@ -57,46 +40,70 @@ QBrush chessBox::getColor()
     return color;
 }
 
+piece *chessBox::getPiece()
+{
+    return currentPiece;
+}
+
+void chessBox::setBoxState(chessEnum state)
+{
+    boxState = state;
+}
+
 void chessBox::setColor(QBrush brush)
 {
-    color = brush;
+    color = brush; // ???
     this->setBrush(color);
+}
+
+void chessBox::setPiece(piece *element)
+{
+    currentPiece = element;
+}
+
+void chessBox::setFlag(chessEnum data)
+{
+    flag = data;
 }
 
 
 void chessBox::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    // If chosen piece, but resigning from move
-    if(boardPtr->getState() == chessEnum::move && color != Qt::yellow && (boxState == chessEnum::none || boxState == killerPiece->getTeam()))
+    // If piece is chosen, but resigning from move
+    if(boardPtr->getState() == chessEnum::move && color != Qt::yellow && (boxState == chessEnum::none || boxState == boardPtr->giveKiller()->getTeam()))
     {
         boardPtr->resetColors();
         boardPtr->setState(chessEnum::select);
-        killerPiece->clearMoves();
-        killerPiece = nullptr;
+        boardPtr->giveKiller()->clearMoves();
+        boardPtr->setKiller(nullptr);
     }
     // Chosing piece to move
     else if(boardPtr->getState() == chessEnum::select && boxState != chessEnum::none)
     {
         if(boxState == boardPtr->getTurn())
         {
-            if(boxState != chessEnum::none) qDebug() << "costam";
-            boardPtr->showMoves(currentPiece->getMoves());
             setBrush(QBrush(Qt::red));
             boardPtr->setState(chessEnum::move);
-            killerPiece = currentPiece;
-            previousBox = this;
+            boardPtr->setKiller(currentPiece);
+            boardPtr->setPrevBox(this);
+            boardPtr->showMoves(currentPiece->getMoves());
         }
     }
     // Kill me
-    else if(boardPtr->getState() == chessEnum::move && boxState != chessEnum::none && color == Qt::yellow )
+    else if(boardPtr->getState() == chessEnum::move && boxState != chessEnum::none && color == Qt::yellow && flag != chessEnum::castling)
     {
         boardPtr->removePiece(currentPiece);
-        movePiece();
+        boardPtr->movePiece(col, row);
     }
     // Move
-    else if(boardPtr->getState() == chessEnum::move && boxState == chessEnum::none && color == Qt::yellow )
+    else if(boardPtr->getState() == chessEnum::move && boxState == chessEnum::none && color == Qt::yellow && flag != chessEnum::castling)
     {
-        movePiece();
+        boardPtr->movePiece(col, row);
+    }
+    // Castling
+    else if(boardPtr->getState() == chessEnum::move && flag == chessEnum::castling)
+    {
+        boardPtr->castling(col, row);
     }
 }
 

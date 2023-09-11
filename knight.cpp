@@ -18,11 +18,12 @@ std::vector<std::vector<int>> knight::getMoves()
     if(player == chessEnum::black) cSide = chessEnum::white;
     else cSide = chessEnum::black;
 
-    auto checkAndPush = [&](int i, int j) {
-        if (col + i <= 7 && row + j >= 0 && col + i >= 0 && row + j <= 7) {
+    auto checkAndPush = [&](int i, int j)
+    {
+        if (col + i <= 7 && row + j >= 0 && col + i >= 0 && row + j <= 7)
+        {
             if (boardPtr->getBoxState(col + i, row + j) == chessEnum::none || boardPtr->getBoxState(col + i, row + j) == cSide)
                 avaliableMoves.push_back(std::vector<int>{col + i, row + j});
-
         }
     };
 

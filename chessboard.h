@@ -10,6 +10,10 @@
 #include "bishop.h"
 #include "pawn.h"
 #include "knight.h"
+#include "rook.h"
+#include "queen.h"
+#include "king.h"
+
 class gameScene;
 class chessBox;
 class chessBoard : public QObject
@@ -17,14 +21,21 @@ class chessBoard : public QObject
     Q_OBJECT
 public:
     chessBoard(qreal x = 0, qreal y = 0, qreal s = 50, gameScene *parent = nullptr);
-    void drawPieces(piece *element);
+    void drawPieces();
     void setState(chessEnum newState);
     void showMoves(std::vector<std::vector<int>> moves);
     void resetColors();
     void addPiece(piece* element);
+    void movePiece(int X, int Y);
     void removePiece(piece* element);
-    chessEnum getTurn();
     void changeTurn();
+    void setKiller(piece* element);
+    void setPrevBox(chessBox* box);
+    void setSpecialMove(chessEnum move);
+    void castling(int X, int Y);
+    piece *giveKiller();
+    chessBox *givePrevBox();
+    chessEnum getTurn();
     chessEnum getState();
     chessEnum getBoxState(int x, int y);
 private:
@@ -33,12 +44,17 @@ private:
     qreal x;
     qreal y;
     qreal s;
+    chessEnum specialMove;
+    std::vector<piece*> piecesWhite;
+    std::vector<piece*> piecesBlack;
     QGraphicsRectItem *rect;
     QGraphicsTextItem *text;
-    piece *pionek;
+
     chessEnum state;
     chessEnum turn;
 
+    static piece *killerPiece;
+    static chessBox *previousBox;
 };
 
 #endif // CHESSBOARD_H
