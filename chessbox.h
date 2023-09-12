@@ -35,12 +35,6 @@ private:
     chessEnum boxState;
     chessEnum flag;
     piece *currentPiece;
-    /*
-    static piece *killerPiece;
-    static chessBox *previousBox;
-*/
-
-
 };
 
 #endif // CHESSBOX_H

@@ -208,12 +208,14 @@ chessBox *chessBoard::givePrevBox()
     return previousBox;
 }
 
-void chessBoard::showMoves(std::vector<std::vector<int> > moves)
+//void chessBoard::showMoves(std::vector<std::vector<int> > moves)
+void chessBoard::showMoves(std::vector<myTemplate<int, chessEnum> > moves)
 {
     for(auto m : moves)
     {
-        board[m[0]][m[1]]->setColor(Qt::yellow);
+        board[m.x][m.y]->setColor(Qt::yellow);
     }
+    // Castling
     if(killerPiece->getType() == chessEnum::king && killerPiece->isMoved() == chessEnum::notMoved)
     {
         // White right castling
@@ -244,5 +246,10 @@ void chessBoard::showMoves(std::vector<std::vector<int> > moves)
             board[0][0]->setColor(Qt::yellow);
             board[0][0]->setFlag(chessEnum::castling);
         }
+    }
+    // En passant
+    if(specialMove == chessEnum::passan)
+    {
+
     }
 }

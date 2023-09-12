@@ -14,7 +14,7 @@ void pawn::setImage()
     if(player == chessEnum::black) setPixmap(QPixmap(":/pieces/pawn.png"));
 }
 
-std::vector<std::vector<int>> pawn::getMoves()
+std::vector<myTemplate<int, chessEnum>> pawn::getMoves()
 {
     chessEnum cSide;
     if(player == chessEnum::black) cSide = chessEnum::white;
@@ -25,7 +25,10 @@ std::vector<std::vector<int>> pawn::getMoves()
         if (col + i <= 7 && row + j >= 0 && col + i >= 0 && row + j <= 7)
         {
             if (boardPtr->getBoxState(col + i, row + j) == chessEnum::none)
+            {
                 avaliableMoves.push_back(std::vector<int>{col + i, row + j});
+                avaliableMoves1.push_back(myTemplate(col + i, row + j, chessEnum::none));
+            }
         }
     };
 
@@ -33,7 +36,10 @@ std::vector<std::vector<int>> pawn::getMoves()
         if (col + i <= 7 && row + j >= 0 && col + i >= 0 && row + j <= 7)
         {
             if (boardPtr->getBoxState(col + i, row + j) == cSide)
+            {
                 avaliableMoves.push_back(std::vector<int>{col + i, row + j});
+                avaliableMoves1.push_back(myTemplate(col + i, row + j, chessEnum::none));
+            }
         }
     };
 
@@ -45,7 +51,7 @@ std::vector<std::vector<int>> pawn::getMoves()
         if(moved == chessEnum::notMoved && boardPtr->getBoxState(col,row - 1) == chessEnum::none)
         {
             checkAndPush(0,-2);
-
+            avaliableMoves1.back().setPassant = chessEnum::passan;
         }
     }
 
@@ -57,10 +63,10 @@ std::vector<std::vector<int>> pawn::getMoves()
         if(moved == chessEnum::notMoved && boardPtr->getBoxState(col,row + 1) == chessEnum::none)
         {
             checkAndPush(0, 2);
-
+            avaliableMoves1.back().setPassant = chessEnum::passan;
         }
     }
 
-    return avaliableMoves;
+    return avaliableMoves1;
 }
 

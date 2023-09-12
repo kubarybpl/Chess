@@ -9,7 +9,7 @@ class knight : public piece
 public:
     knight(chessEnum color = chessEnum::white, chessBoard *board = nullptr);
     virtual void setImage() override;
-    virtual std::vector<std::vector<int>> getMoves();
+    virtual std::vector<myTemplate<int, chessEnum>> getMoves();
 };
 
 #endif // KNIGHT_H

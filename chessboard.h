@@ -23,7 +23,7 @@ public:
     chessBoard(qreal x = 0, qreal y = 0, qreal s = 50, gameScene *parent = nullptr);
     void drawPieces();
     void setState(chessEnum newState);
-    void showMoves(std::vector<std::vector<int>> moves);
+    void showMoves(std::vector<myTemplate<int, chessEnum>> moves);
     void resetColors();
     void addPiece(piece* element);
     void movePiece(int X, int Y);

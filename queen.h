@@ -11,6 +11,6 @@ class queen : public piece
 public:
     queen(chessEnum color = chessEnum::white, chessBoard *board = nullptr);
     virtual void setImage();
-    virtual std::vector<std::vector<int>> getMoves();
+    virtual std::vector<myTemplate<int, chessEnum>> getMoves();
 };
 #endif // QUEEN_H

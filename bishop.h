@@ -11,7 +11,7 @@ class bishop : public piece
 public:
     bishop(chessEnum color = chessEnum::white, chessBoard *board = nullptr);
     virtual void setImage();
-    virtual std::vector<std::vector<int>> getMoves();
+    virtual std::vector<myTemplate<int, chessEnum>> getMoves();
 };
 
 #endif // BISHOP_H

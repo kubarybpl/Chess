@@ -11,7 +11,7 @@ void queen::setImage()
     if(player == chessEnum::black) setPixmap(QPixmap(":/pieces/queen.png"));
 }
 
-std::vector<std::vector<int>> queen::getMoves()
+std::vector<myTemplate<int, chessEnum>> queen::getMoves()
 {
     chessEnum cSide;
     if(player == chessEnum::black)  cSide = chessEnum::white;
@@ -24,7 +24,10 @@ std::vector<std::vector<int>> queen::getMoves()
         {
             if(boardPtr->getBoxState(col + i, row + j) == player) x++;
             else if (boardPtr->getBoxState(col + i, row + j) == chessEnum::none || boardPtr->getBoxState(col + i, row + j) == cSide)
+            {
                 avaliableMoves.push_back(std::vector<int>{col + i, row + j});
+                avaliableMoves1.push_back(myTemplate(col + i, row + j, chessEnum::none));
+            }
             if(boardPtr->getBoxState(col + i, row + j) == cSide) x++;
         }
     };
@@ -105,5 +108,5 @@ std::vector<std::vector<int>> queen::getMoves()
         i++;
     }
 
-    return avaliableMoves;
+    return avaliableMoves1;
 }

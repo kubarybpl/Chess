@@ -43,7 +43,8 @@ HEADERS += \
     queen.h \
     rook.h \
     sceneView.h \
-    settingsscene.h
+    settingsscene.h \
+    templateMoves.h
 
 FORMS += \
     mainwindow.ui

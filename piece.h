@@ -5,6 +5,7 @@
 #include <QGraphicsPixmapItem>
 #include <vector>
 #include "chessenum.h"
+#include "templateMoves.h"
 
 class chessBoard;
 class piece : public QGraphicsPixmapItem
@@ -12,7 +13,8 @@ class piece : public QGraphicsPixmapItem
 public:
     piece(chessEnum color, chessBoard *board = nullptr, QGraphicsItem *parent = nullptr);
     virtual void setImage() = 0;
-    virtual std::vector<std::vector<int>> getMoves() = 0;
+    //virtual std::vector<std::vector<int>> getMoves() = 0;
+    virtual std::vector<myTemplate<int,chessEnum>> getMoves() = 0;
     void setXY(int x, int y);
     void clearMoves();
     void movedPiece();
@@ -22,6 +24,7 @@ public:
     chessEnum isMoved();
 protected:
     QGraphicsItem *parent;
+    std::vector<myTemplate<int,chessEnum>> avaliableMoves1;
     std::vector<std::vector<int>> avaliableMoves;
     chessEnum player;
     chessBoard *boardPtr;

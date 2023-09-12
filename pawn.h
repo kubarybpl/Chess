@@ -9,7 +9,7 @@ class pawn : public piece
 public:
     pawn(chessEnum color = chessEnum::white, chessBoard *board = nullptr);
     virtual void setImage();
-    virtual std::vector<std::vector<int>> getMoves();
+    virtual std::vector<myTemplate<int, chessEnum>> getMoves();
 };
 
 #endif // PAWN_H

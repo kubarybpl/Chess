@@ -99,11 +99,13 @@ void chessBox::mousePressEvent(QGraphicsSceneMouseEvent *event)
     else if(boardPtr->getState() == chessEnum::move && boxState == chessEnum::none && color == Qt::yellow && flag != chessEnum::castling)
     {
         boardPtr->movePiece(col, row);
+
     }
     // Castling
     else if(boardPtr->getState() == chessEnum::move && flag == chessEnum::castling)
     {
         boardPtr->castling(col, row);
     }
+
 }
 
