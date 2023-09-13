@@ -6,7 +6,6 @@ sceneView::sceneView(QWidget *parent) : QGraphicsView(parent)
     //settings = new settingsScene();
     menu = new menuScene(this);
 
-
     this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

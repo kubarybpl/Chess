@@ -10,12 +10,25 @@ gameScene::gameScene(QObject *parent) : QGraphicsScene(parent)
     menuButton->move(this->width()*0.85,this->height()*0.05);
     this->addWidget(menuButton);
 
-    //timerWhite = new QTimer(this);
-    //timerWhite->setSingleShot(true);
-    //timerWhite->
+    stateLabel = new QLabel("");
+    stateLabel->move(this->width()/2 - 125, this->height()*9.4/10);
+    QFont font("Arial", 16);
+    stateLabel->setFont(font);
+    stateLabel->setAlignment(Qt::AlignCenter);
+    stateLabel->setStyleSheet("background: transparent; border: none;");
+    stateLabel->setMinimumWidth(250);
+    stateLabel->setMinimumHeight(30);
+    this->addWidget(stateLabel);
 
     gameLabel = new QLabel("Runda białego");
-    gameLabel->move(this->width()/2, 0);
+    gameLabel->move(this->width()/2 - 125, 0);
+    QFont font1("Arial", 16);
+    gameLabel->setFont(font1);
+    gameLabel->setAlignment(Qt::AlignCenter);
+    gameLabel->setStyleSheet("background: transparent; border: none;");
+    gameLabel->setMinimumWidth(250);
+    gameLabel->setMinimumHeight(30);
+    //gameLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     this->addWidget(gameLabel);
 
     sizeBox = 60;
@@ -73,4 +86,43 @@ void gameScene::changeTurn(chessEnum color)
 {
     if(color == chessEnum::black) gameLabel->setText("Runda czarnego");
     else gameLabel->setText("Runda białego");
+}
+
+void gameScene::setState(chessEnum player)
+{
+    if(player == chessEnum::none)
+    {
+        stateLabel->setText("");
+        stateLabel->setStyleSheet("background: transparent; border: none;");
+    }
+    if(player == chessEnum::white)
+    {
+        stateLabel->setText("Biały za szachowany");
+        stateLabel->setStyleSheet("border: 2px solid red;");
+    }
+    if(player == chessEnum::black)
+    {
+        stateLabel->setText("Czarny za szachowany");
+        stateLabel->setStyleSheet("border: 2px solid red;");
+    }
+}
+
+void gameScene::gameOver(chessEnum player)
+{
+    if(player == chessEnum::none)
+    {
+        stateLabel->setText("");
+        stateLabel->setStyleSheet("background: transparent; border: none;");
+    }
+    if(player == chessEnum::white)
+    {
+        stateLabel->setText("Czarny wygrywa");
+            stateLabel->setStyleSheet("border: 2px solid green;");
+    }
+    if(player == chessEnum::black)
+    {
+        stateLabel->setText("Biały wygrywa");
+        stateLabel->setStyleSheet("border: 2px solid green;");
+    }
+
 }

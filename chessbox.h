@@ -20,14 +20,17 @@ public:
     void setColor(QBrush brush);
     void setPiece(piece *element);
     void setFlag(chessEnum);
+    chessEnum getFlag();
     chessEnum getBoxState();
     QBrush getColor();
     piece *getPiece();
+    void disableClick();
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 private:
     chessBoard *boardPtr;
     QBrush color;
+    bool accept;
     int row;
     int col;
     qreal s;

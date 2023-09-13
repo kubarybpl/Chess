@@ -14,9 +14,11 @@ enum class chessEnum
     alive,
     dead,
     castling,
+    enablePassan,
     passan,
     king,
-    pawn
+    pawn,
+    toKill
 };
 
 #endif // CHESSENUM_H

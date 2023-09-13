@@ -4,7 +4,7 @@
 
 
 chessBox::chessBox(qreal x, qreal y, qreal s, int col, int row, chessBoard *object, QGraphicsItem *parent) : QGraphicsRectItem(x, y, s, s, parent),
-    boxState(chessEnum::none), boardPtr(object), row(row), col(col), flag(chessEnum::none)
+    boxState(chessEnum::none), boardPtr(object), row(row), col(col), flag(chessEnum::none), currentPiece(nullptr), accept(1)
 {
     if(!((row+col)%2))  color = Qt::white;
     else color = Qt::gray;
@@ -45,6 +45,11 @@ piece *chessBox::getPiece()
     return currentPiece;
 }
 
+void chessBox::disableClick()
+{
+    accept = 0;
+}
+
 void chessBox::setBoxState(chessEnum state)
 {
     boxState = state;
@@ -66,46 +71,64 @@ void chessBox::setFlag(chessEnum data)
     flag = data;
 }
 
+chessEnum chessBox::getFlag()
+{
+    return flag;
+}
 
 void chessBox::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    // If piece is chosen, but resigning from move
-    if(boardPtr->getState() == chessEnum::move && color != Qt::yellow && (boxState == chessEnum::none || boxState == boardPtr->giveKiller()->getTeam()))
+    if(accept)
     {
-        boardPtr->resetColors();
-        boardPtr->setState(chessEnum::select);
-        boardPtr->giveKiller()->clearMoves();
-        boardPtr->setKiller(nullptr);
-    }
-    // Chosing piece to move
-    else if(boardPtr->getState() == chessEnum::select && boxState != chessEnum::none)
-    {
-        if(boxState == boardPtr->getTurn())
+        // Passant
+        //#1
+        if(boardPtr->getState() == chessEnum::move && flag == chessEnum::enablePassan)
         {
-            setBrush(QBrush(Qt::red));
-            boardPtr->setState(chessEnum::move);
-            boardPtr->setKiller(currentPiece);
-            boardPtr->setPrevBox(this);
-            boardPtr->showMoves(currentPiece->getMoves());
+            boardPtr->setPassant(col, row);
+        }
+        //#2
+        else if(boardPtr->getState() == chessEnum::move && flag == chessEnum::passan && color == Qt::yellow)
+        {
+            boardPtr->passant(col, row);
+        }
+
+        // If piece is chosen, but resigning from move
+        else if(boardPtr->getState() == chessEnum::move && color != Qt::yellow && (boxState == chessEnum::none || boxState == boardPtr->giveKiller()->getTeam()))
+        {
+            boardPtr->resetColors();
+            boardPtr->setState(chessEnum::select);
+            boardPtr->giveKiller()->clearMoves();
+            boardPtr->setKiller(nullptr);
+        }
+        // Chosing piece to move
+        else if(boardPtr->getState() == chessEnum::select && boxState != chessEnum::none)
+        {
+            if(boxState == boardPtr->getTurn())
+            {
+                setBrush(QBrush(Qt::red));
+                boardPtr->setState(chessEnum::move);
+                boardPtr->setKiller(currentPiece);
+                boardPtr->setPrevBox(this);
+                boardPtr->showMoves(currentPiece->getMoves());
+            }
+        }
+        // Kill me
+        else if(boardPtr->getState() == chessEnum::move && boxState != chessEnum::none && color == Qt::yellow && flag != chessEnum::castling && flag != chessEnum::passan)
+        {
+            boardPtr->removePiece(currentPiece);
+            boardPtr->movePiece(col, row);
+        }
+        // Move
+        else if(boardPtr->getState() == chessEnum::move && boxState == chessEnum::none && color == Qt::yellow && flag != chessEnum::castling && flag != chessEnum::passan)
+        {
+            boardPtr->movePiece(col, row);
+
+        }
+        // Castling
+        else if(boardPtr->getState() == chessEnum::move && flag == chessEnum::castling)
+        {
+            boardPtr->castling(col, row);
         }
     }
-    // Kill me
-    else if(boardPtr->getState() == chessEnum::move && boxState != chessEnum::none && color == Qt::yellow && flag != chessEnum::castling)
-    {
-        boardPtr->removePiece(currentPiece);
-        boardPtr->movePiece(col, row);
-    }
-    // Move
-    else if(boardPtr->getState() == chessEnum::move && boxState == chessEnum::none && color == Qt::yellow && flag != chessEnum::castling)
-    {
-        boardPtr->movePiece(col, row);
-
-    }
-    // Castling
-    else if(boardPtr->getState() == chessEnum::move && flag == chessEnum::castling)
-    {
-        boardPtr->castling(col, row);
-    }
-
 }
 

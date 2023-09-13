@@ -32,6 +32,11 @@ void piece::killHim()
     isAlive = chessEnum::dead;
 }
 
+chessEnum piece::Alive()
+{
+    return isAlive;
+}
+
 chessEnum piece::getType()
 {
     return type;

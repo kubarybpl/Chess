@@ -33,6 +33,11 @@ public:
     void setPrevBox(chessBox* box);
     void setSpecialMove(chessEnum move);
     void castling(int X, int Y);
+    void setPassant(int X, int Y);
+    void passant(int X, int Y);
+    void checkForCheck();
+    void setCheck(chessEnum player);
+    void gameOver(chessEnum player);
     piece *giveKiller();
     chessBox *givePrevBox();
     chessEnum getTurn();

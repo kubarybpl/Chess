@@ -24,8 +24,7 @@ std::vector<myTemplate<int, chessEnum>> knight::getMoves()
         {
             if (boardPtr->getBoxState(col + i, row + j) == chessEnum::none || boardPtr->getBoxState(col + i, row + j) == cSide)
             {
-                avaliableMoves.push_back(std::vector<int>{col + i, row + j});
-                avaliableMoves1.push_back(myTemplate(col + i, row + j, chessEnum::none));
+                avaliableMoves.push_back(myTemplate(col + i, row + j, chessEnum::none));
             }
         }
     };
@@ -39,6 +38,6 @@ std::vector<myTemplate<int, chessEnum>> knight::getMoves()
     checkAndPush(-2, -1);
     checkAndPush(-2, 1);
 
-    return avaliableMoves1;
+    return avaliableMoves;
 }
 

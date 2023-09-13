@@ -114,14 +114,15 @@ void chessBoard::movePiece(int X, int Y)
     previousBox = nullptr;
     killerPiece = nullptr;
     setState(chessEnum::select);
+    checkForCheck();
     resetColors();
     changeTurn();
 }
 
 void chessBoard::removePiece(piece *element)
 {
-    parentPtr->removeItem(element);
     element->killHim();
+    parentPtr->removeItem(element);
 }
 
 void chessBoard::setState(chessEnum newState)
@@ -198,6 +199,100 @@ void chessBoard::castling(int X, int Y)
     }
 }
 
+void chessBoard::setPassant(int X, int Y)
+{
+    movePiece(X,Y);
+    if(turn == chessEnum::black)
+    {
+        board[X][Y + 1]->setFlag(chessEnum::passan);
+    }
+    if(turn == chessEnum::white)
+    {
+        board[X][Y - 1]->setFlag(chessEnum::passan);
+    }
+}
+
+void chessBoard::passant(int X, int Y)
+{
+    if(killerPiece->getType() == chessEnum::pawn)
+    {
+        if(turn == chessEnum::white)
+        {
+            removePiece(board[X][Y + 1]->getPiece());
+            movePiece(X,Y);
+        }
+        else if(turn == chessEnum::black)
+        {
+            removePiece(board[X][Y - 1]->getPiece());
+            movePiece(X,Y);
+        }
+    }
+    else movePiece(X,Y);
+}
+
+void chessBoard::checkForCheck()
+{
+    setCheck(chessEnum::none);
+    static int wCheck = 0;
+    static int bCheck = 0;
+    int x = 0;
+    // Check for white king
+    for(auto wB : piecesBlack)
+    {
+        if(wB->Alive() == chessEnum::alive)
+        {
+            auto moves = wB->getMoves();
+            for(auto m : moves)
+            {
+                if(board[m.x][m.y]->getBoxState() == chessEnum::white && board[m.x][m.y]->getPiece()->getType() == chessEnum::king)
+                {
+                    x++;
+                }
+            }
+        }
+    }
+    if(!x) wCheck = 0;
+    else wCheck++;
+    if(wCheck == 2) gameOver(chessEnum::white);
+    if(wCheck == 1) setCheck(chessEnum::white);
+
+    x = 0;
+    for(auto wB : piecesWhite)
+    {
+        if(wB->Alive() == chessEnum::alive)
+        {
+            auto moves = wB->getMoves();
+            for(auto m : moves)
+            {
+                if(board[m.x][m.y]->getBoxState() == chessEnum::black && board[m.x][m.y]->getPiece()->getType() == chessEnum::king)
+                {
+                    x++;
+                }
+            }
+        }
+    }
+    if(!x) bCheck = 0;
+    else bCheck++;
+    if(bCheck == 2) gameOver(chessEnum::black);
+    if(bCheck == 1) setCheck(chessEnum::black);
+
+}
+
+void chessBoard::setCheck(chessEnum player)
+{
+    parentPtr->setState(player);
+}
+
+void chessBoard::gameOver(chessEnum player)
+{
+    for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++) {
+            board[i][j]->disableClick();
+        }
+    }
+    parentPtr->gameOver(player);
+}
+
 piece *chessBoard::giveKiller()
 {
     return killerPiece;
@@ -208,12 +303,60 @@ chessBox *chessBoard::givePrevBox()
     return previousBox;
 }
 
-//void chessBoard::showMoves(std::vector<std::vector<int> > moves)
 void chessBoard::showMoves(std::vector<myTemplate<int, chessEnum> > moves)
 {
-    for(auto m : moves)
+    if(killerPiece->getType() != chessEnum::king)
     {
-        board[m.x][m.y]->setColor(Qt::yellow);
+        for(auto m : moves)
+        {
+            board[m.x][m.y]->setColor(Qt::yellow);
+
+            if(m.setPassant == chessEnum::passan)
+            {
+                board[m.x][m.y]->setFlag(chessEnum::enablePassan);
+            }
+            if(killerPiece->getType() == chessEnum::pawn)
+            {
+                if(turn == chessEnum::white)
+                {
+                    if(m.x - 1 >= 0 && board[m.x - 1][m.y]->getFlag() == chessEnum::passan)
+                        board[m.x - 1][m.y]->setColor(Qt::yellow);
+
+                    if(m.x + 1 <= 7 && board[m.x + 1][m.y]->getFlag() == chessEnum::passan)
+                        board[m.x + 1][m.y]->setColor(Qt::yellow);
+                }
+                if(turn == chessEnum::black)
+                {
+                    if(m.x - 1 >= 0 && board[m.x - 1][m.y]->getFlag() == chessEnum::passan)
+                        board[m.x - 1][m.y]->setColor(Qt::yellow);
+
+                    if(m.x + 1 <= 7 && board[m.x + 1][m.y]->getFlag() == chessEnum::passan)
+                        board[m.x + 1][m.y]->setColor(Qt::yellow);
+                }
+            }
+        }
+    }
+    // Moves for king
+    if(killerPiece->getType() == chessEnum::king)
+    {
+        auto elements = piecesWhite;
+        if(turn == chessEnum::white) elements = piecesBlack;
+        else elements = piecesWhite;
+        for(auto wB : elements)
+        {
+            if(wB->Alive() == chessEnum::alive)
+            {
+                auto killMoves = wB->getMoves();
+                for(auto m : killMoves)
+                {
+                    board[m.x][m.y]->setFlag(chessEnum::toKill);
+                }
+            }
+        }
+        for(auto m : moves)
+        {
+            if(board[m.x][m.y]->getFlag() != chessEnum::toKill) board[m.x][m.y]->setColor(Qt::yellow);
+        }
     }
     // Castling
     if(killerPiece->getType() == chessEnum::king && killerPiece->isMoved() == chessEnum::notMoved)
@@ -246,10 +389,5 @@ void chessBoard::showMoves(std::vector<myTemplate<int, chessEnum> > moves)
             board[0][0]->setColor(Qt::yellow);
             board[0][0]->setFlag(chessEnum::castling);
         }
-    }
-    // En passant
-    if(specialMove == chessEnum::passan)
-    {
-
     }
 }

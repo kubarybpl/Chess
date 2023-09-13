@@ -18,11 +18,14 @@ public:
     ~gameScene();
     QDialog *dialog; // do poprawki
     void changeTurn(chessEnum color);
+    void setState(chessEnum player);
+    void gameOver(chessEnum player);
 private:
     button *menuButton;
     button *dialEndButton;
     button *dialCancelButton;
     QLabel *gameLabel;
+    QLabel *stateLabel;
     QLabel *dialLabel;
     chessBoard *board;
     qreal sizeBox;

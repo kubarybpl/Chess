@@ -26,8 +26,7 @@ std::vector<myTemplate<int, chessEnum>> pawn::getMoves()
         {
             if (boardPtr->getBoxState(col + i, row + j) == chessEnum::none)
             {
-                avaliableMoves.push_back(std::vector<int>{col + i, row + j});
-                avaliableMoves1.push_back(myTemplate(col + i, row + j, chessEnum::none));
+                avaliableMoves.push_back(myTemplate(col + i, row + j, chessEnum::none));
             }
         }
     };
@@ -37,8 +36,7 @@ std::vector<myTemplate<int, chessEnum>> pawn::getMoves()
         {
             if (boardPtr->getBoxState(col + i, row + j) == cSide)
             {
-                avaliableMoves.push_back(std::vector<int>{col + i, row + j});
-                avaliableMoves1.push_back(myTemplate(col + i, row + j, chessEnum::none));
+                avaliableMoves.push_back(myTemplate(col + i, row + j, chessEnum::none));
             }
         }
     };
@@ -51,7 +49,7 @@ std::vector<myTemplate<int, chessEnum>> pawn::getMoves()
         if(moved == chessEnum::notMoved && boardPtr->getBoxState(col,row - 1) == chessEnum::none)
         {
             checkAndPush(0,-2);
-            avaliableMoves1.back().setPassant = chessEnum::passan;
+            avaliableMoves.back().setPassant = chessEnum::passan;
         }
     }
 
@@ -63,10 +61,10 @@ std::vector<myTemplate<int, chessEnum>> pawn::getMoves()
         if(moved == chessEnum::notMoved && boardPtr->getBoxState(col,row + 1) == chessEnum::none)
         {
             checkAndPush(0, 2);
-            avaliableMoves1.back().setPassant = chessEnum::passan;
+            avaliableMoves.back().setPassant = chessEnum::passan;
         }
     }
 
-    return avaliableMoves1;
+    return avaliableMoves;
 }
 
