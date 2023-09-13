@@ -4,7 +4,6 @@ menuScene::menuScene(QObject *parent) : QGraphicsScene(parent)
 {
     parentPtr = dynamic_cast<QGraphicsView*>(parent);
     this->setSceneRect(0, 0, 800, 600);
-    this->addRect(100, 100, 200, 200, QPen(), QBrush(Qt::blue));
 
     game = new gameScene();
     settings = new settingsScene();
